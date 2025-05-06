@@ -26,9 +26,13 @@ struct Args {
     #[arg(short, long, default_value = "md")]
     file_type: String,
 
-    /// Number of characters used for sharding (e.g., 2 → 256 subdirs)
+    /// Number of characters used for sharding
     #[arg(long, default_value_t = 2)]
     shard_len: usize,
+
+    /// Depth of folders to recursively walk. By default walk all sub trees.
+    #[arg(long)]
+    depth: Option<usize>,
 }
 
 #[derive(Copy, Clone, Debug, ValueEnum)]
@@ -42,6 +46,7 @@ fn main() -> Result<()> {
 
     let walker = WalkBuilder::new(&args.source)
         .standard_filters(true)
+        .max_depth(args.depth)
         .build();
 
     for result in walker {
