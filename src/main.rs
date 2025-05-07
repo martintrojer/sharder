@@ -80,7 +80,7 @@ fn main() -> Result<()> {
             ShardMode::Content => &hex_sha256(&content),
         };
 
-        let shard_prefix = &full_key[..args.shard_len.min(full_key.len())];
+        let shard_prefix = &full_key[..args.shard_len.min(full_key.len())].to_lowercase();
 
         let output_dir = args.target.join(shard_prefix);
         fs::create_dir_all(&output_dir)?;
